@@ -8,14 +8,6 @@ import (
 	"time"
 )
 
-func Hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello, world! ")
-}
-
-func About(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "About here! ")
-}
-
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprint(w, "Hello, world! ", app.Domain)
 	// Json Data
@@ -29,21 +21,25 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 		Version: "1.0.0",
 	}
 
-	out, err := json.Marshal(payload)
-	if err != nil {
-		fmt.Println(err)
-	}
+	// out, err := json.Marshal(payload)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(out)
+	// w.Header().Set("Content-Type", "application/json")
+	// w.WriteHeader(http.StatusOK)
+	// w.Write(out)
+
+	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
 func (app *application) About(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "About here!")
 }
 
-func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
+// ฟังก์ชันสำหรับแสดงรายชื่อหนังทั้งหมดโดยการทดสอบ mock data
+func (app *application) AllDemoMovies(w http.ResponseWriter, r *http.Request) {
+
 	// สร้างตัวแปรไว้เก็บข้อมูลหนัง
 	var movies []models.Movie
 
@@ -88,4 +84,17 @@ func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(out)
+
+}
+
+// ฟังก์ชันสำหรับแสดงรายชื่อหนังทั้งหมดโดยเรียกจาก database
+func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
+	// ดึงข้อมูลหนังทั้งหมดจาก database โดยใช้เมธอด AllMovies จาก app.DB
+	movies, err := app.DB.AllMovies()
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	_ = app.writeJSON(w, http.StatusOK, movies)
 }
