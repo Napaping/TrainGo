@@ -1,5 +1,7 @@
 basePath: /
-host: localhost:7070
+# host: localhost:8080 # ถ้าใช้ local
+# host: localhost:7070 # ถ้าใช้ docker local
+host: go-sample-api-deployed.onrender.com # render
 info:
   contact:
     email: support@swagger.io
