@@ -1,22 +1,21 @@
-import type { JSX } from "react";
-import Navbar from "../shared/Navbar";
-import Footer from "../shared/Footer";
+import Footer from "@/components/shared/Footer"
+import Navbar from "@/components/shared/Navbar"
+import type { JSX } from "react"
 
 type Props = {
-    children: JSX.Element | JSX.Element[];
+    children: JSX.Element | JSX.Element[]
 }
 
-function Frontlayout( { children } : Props) {
+function FrontLayout({ children }: Props) {
   return (
     <>
-        <Navbar/>
+        <Navbar />
         <div className="sm:pt-20 lg:pt-8">
-            {children}
+            { children }
         </div>
-         
-        <Footer/>
+        <Footer />
     </>
   )
 }
 
-export default Frontlayout
+export default FrontLayout
